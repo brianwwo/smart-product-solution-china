@@ -98,18 +98,18 @@ export class OwnerWebApp extends cdk.Construct {
     _putConfig.node.addDependency(_copyS3Assets.node.findChild('Default') as cdk.Resource)
     _putConfig.node.addDependency(helperS3Policy.node.findChild('Resource') as cdk.Resource)
 
-    const consoleOriginAccessIdentity = new cloudfront.CfnCloudFrontOriginAccessIdentity(this, 'ConsoleOriginAccessIdentity', {
-      cloudFrontOriginAccessIdentityConfig: {
-        comment: `access-identity-${smartProductWebsiteBucket.bucketName}`
-      }
-    })
+    // const consoleOriginAccessIdentity = new cloudfront.CfnCloudFrontOriginAccessIdentity(this, 'ConsoleOriginAccessIdentity', {
+    //   cloudFrontOriginAccessIdentityConfig: {
+    //     comment: `access-identity-${smartProductWebsiteBucket.bucketName}`
+    //   }
+    // })
 
     const consoleDistribution = new cloudfront.CloudFrontWebDistribution(this, 'ConsoleDistribution', {
       comment: 'Website distribution for smart product console',
       originConfigs: [{
         s3OriginSource: {
           s3BucketSource: smartProductWebsiteBucket,
-          originAccessIdentityId: `${consoleOriginAccessIdentity.ref}`
+          // originAccessIdentityId: `${consoleOriginAccessIdentity.ref}`
         },
         behaviors: [{
           isDefaultBehavior: true,
@@ -143,12 +143,12 @@ export class OwnerWebApp extends cdk.Construct {
     // Permissions and Policies
     //=============================================================================================
     // S3 Bucket Policy
-    smartProductWebsiteBucket.addToResourcePolicy(new iam.PolicyStatement({
-      actions: ['s3:GetObject'],
-      effect: iam.Effect.ALLOW,
-      resources: [`${smartProductWebsiteBucket.bucketArn}/*`],
-      principals: [new iam.CanonicalUserPrincipal(consoleOriginAccessIdentity.attrS3CanonicalUserId)]
-    }))
+    // smartProductWebsiteBucket.addToResourcePolicy(new iam.PolicyStatement({
+    //   actions: ['s3:GetObject'],
+    //   effect: iam.Effect.ALLOW,
+    //   resources: [`${smartProductWebsiteBucket.bucketArn}/*`],
+    //   principals: [new iam.CanonicalUserPrincipal(consoleOriginAccessIdentity.attrS3CanonicalUserId)]
+    // }))
 
     // CFN_NAG Annotations
     const websiteBucketResource = smartProductWebsiteBucket.node.findChild('Resource') as s3.CfnBucket;
