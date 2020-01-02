@@ -20,6 +20,7 @@ import lambda = require('@aws-cdk/aws-lambda');
 import iot = require('@aws-cdk/aws-iot');
 import apigateway = require('@aws-cdk/aws-apigateway');
 import s3 = require('@aws-cdk/aws-s3');
+import { EndpointType } from '@aws-cdk/aws-apigateway';
 
 export interface ApiProps {
   helperFunction: cfn.CustomResourceProvider;
@@ -334,6 +335,7 @@ export class SmartProductApi extends cdk.Construct {
     const api = new apigateway.RestApi(this, 'smart-product-api', {
       restApiName: 'SmartProductAPI',
       deploy: false,
+      endpointTypes: [EndpointType.REGIONAL]
     });
 
     const apiDeployment = new apigateway.Deployment(this, 'Deployment', {
