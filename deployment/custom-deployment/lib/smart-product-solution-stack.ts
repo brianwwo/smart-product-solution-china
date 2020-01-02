@@ -193,7 +193,7 @@ export class SmartProductSolutionStack extends cdk.Stack {
             'iot:DeleteScheduledAudit',
             'iot:DescribeEndpoint',
             'iot:DescribeAccountAuditConfiguration',
-            'iotanalytics:ListChannels'
+            // 'iotanalytics:ListChannels'
           ],
           resources: ['*']
         }),

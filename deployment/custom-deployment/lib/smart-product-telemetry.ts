@@ -13,7 +13,7 @@
 
 import cdk = require('@aws-cdk/core');
 import iot = require('@aws-cdk/aws-iot');
-import iotAnalytics = require('@aws-cdk/aws-iotanalytics');
+// import iotAnalytics = require('@aws-cdk/aws-iotanalytics');
 import iam = require('@aws-cdk/aws-iam');
 import lambda = require('@aws-cdk/aws-lambda');
 import { generateName } from './name-generator';
@@ -30,27 +30,27 @@ export class SmartProductTelemetry extends cdk.Construct {
     //=============================================================================================
     // Resources
     //=============================================================================================
-    const smartProductTelemetryChannel = new iotAnalytics.CfnChannel(this, 'Channel', {
-      channelName: 'smartproduct_channel'
-    })
+    // const smartProductTelemetryChannel = new iotAnalytics.CfnChannel(this, 'Channel', {
+    //   channelName: 'smartproduct_channel'
+    // })
 
     const smartProductTelemetryRole = new iam.Role(this, 'SmartProductTelemetryRole', {
       assumedBy: new iam.ServicePrincipal('iot.amazonaws.com')
     });
-    new iot.CfnTopicRule(this, 'StorageRule', {
-      ruleName: 'SmartProductTelemetryRule',
-      topicRulePayload: {
-        actions: [{
-          iotAnalytics: {
-            channelName: `${smartProductTelemetryChannel.ref}`,
-            roleArn: `${smartProductTelemetryRole.roleArn}`
-          }
-        }],
-        description: 'Persistent storage of smart product telemetry data',
-        ruleDisabled: false,
-        sql: `select * from '${props.telemetryTopic}/#'`
-      }
-    });
+    // new iot.CfnTopicRule(this, 'StorageRule', {
+    //   ruleName: 'SmartProductTelemetryRule',
+    //   topicRulePayload: {
+    //     actions: [{
+    //       iotAnalytics: {
+    //         channelName: `${smartProductTelemetryChannel.ref}`,
+    //         roleArn: `${smartProductTelemetryRole.roleArn}`
+    //       }
+    //     }],
+    //     description: 'Persistent storage of smart product telemetry data',
+    //     ruleDisabled: false,
+    //     sql: `select * from '${props.telemetryTopic}/#'`
+    //   }
+    // });
 
     const smartProductLambdaRole = new iam.Role(this, 'LambdaRole', {
       assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com')
@@ -69,59 +69,59 @@ export class SmartProductTelemetry extends cdk.Construct {
       memorySize: 256
     });
 
-    const smartProductTelemetryDatastore = new iotAnalytics.CfnDatastore(this, 'DataStore', {
-      datastoreName: 'smartproduct_datastore'
-    })
+    // const smartProductTelemetryDatastore = new iotAnalytics.CfnDatastore(this, 'DataStore', {
+    //   datastoreName: 'smartproduct_datastore'
+    // })
 
-    const smartProductTelemetryPipeline = new iotAnalytics.CfnPipeline(this, 'Pipeline', {
-      pipelineName: 'smartproduct_pipeline',
-      pipelineActivities: [{
-        channel: {
-          name: "SmartProductChannelActivity",
-          channelName: smartProductTelemetryChannel.ref,
-          next: "SmartProductLambdaActivity"
-        },
-        lambda: {
-          name: "SmartProductLambdaActivity",
-          lambdaName: smartProductTelemetryService.ref,
-          batchSize: 10,
-          next: "SmartProductDatastoreActivity"
-        },
-        datastore: {
-          name: "SmartProductDatastoreActivity",
-          datastoreName: smartProductTelemetryDatastore.ref
-        }
-      }]
-    });
+    // const smartProductTelemetryPipeline = new iotAnalytics.CfnPipeline(this, 'Pipeline', {
+    //   pipelineName: 'smartproduct_pipeline',
+    //   pipelineActivities: [{
+    //     channel: {
+    //       name: "SmartProductChannelActivity",
+    //       channelName: smartProductTelemetryChannel.ref,
+    //       next: "SmartProductLambdaActivity"
+    //     },
+    //     lambda: {
+    //       name: "SmartProductLambdaActivity",
+    //       lambdaName: smartProductTelemetryService.ref,
+    //       batchSize: 10,
+    //       next: "SmartProductDatastoreActivity"
+    //     },
+    //     datastore: {
+    //       name: "SmartProductDatastoreActivity",
+    //       datastoreName: smartProductTelemetryDatastore.ref
+    //     }
+    //   }]
+    // });
 
-    new iotAnalytics.CfnDataset(this, 'Dataset', {
-      datasetName: 'smartproduct_dataset',
-      actions:
-        [
-          {
-            actionName: "SmartProductSqlAction",
-            queryAction: {
-              sqlQuery: 'select * from ' + smartProductTelemetryDatastore.ref
-            }
-          }
-        ],
-      triggers: [{
-        schedule: { scheduleExpression: "rate(1 hour)" }
-      }]
-    });
+    // new iotAnalytics.CfnDataset(this, 'Dataset', {
+    //   datasetName: 'smartproduct_dataset',
+    //   actions:
+    //     [
+    //       {
+    //         actionName: "SmartProductSqlAction",
+    //         queryAction: {
+    //           sqlQuery: 'select * from ' + smartProductTelemetryDatastore.ref
+    //         }
+    //       }
+    //     ],
+    //   triggers: [{
+    //     schedule: { scheduleExpression: "rate(1 hour)" }
+    //   }]
+    // });
 
     //=============================================================================================
     // Permissions and Policies
     //=============================================================================================
-    const telemetryPolicy = new iam.Policy(this, 'TelemetryPolicy', {
-      statements: [new iam.PolicyStatement({
-        actions: [
-          'iotanalytics:BatchPutMessage'
-        ],
-        resources: [`arn:aws:iotanalytics:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:channel/${smartProductTelemetryChannel.ref}`]
-      })]
-    })
-    telemetryPolicy.attachToRole(smartProductTelemetryRole);
+    // const telemetryPolicy = new iam.Policy(this, 'TelemetryPolicy', {
+    //   statements: [new iam.PolicyStatement({
+    //     actions: [
+    //       'iotanalytics:BatchPutMessage'
+    //     ],
+    //     resources: [`arn:aws:iotanalytics:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:channel/${smartProductTelemetryChannel.ref}`]
+    //   })]
+    // })
+    // telemetryPolicy.attachToRole(smartProductTelemetryRole);
 
     const serviceLogPolicy = new iam.Policy(this, 'serviceLogPolicy', {
       statements: [new iam.PolicyStatement({
@@ -144,12 +144,12 @@ export class SmartProductTelemetry extends cdk.Construct {
     }
     serviceLogPolicy.attachToRole(smartProductLambdaRole);
 
-    new lambda.CfnPermission(this, 'LambdaInvokeTelemetryPermission', {
-      functionName: `${smartProductTelemetryService.attrArn}`,
-      action: 'lambda:InvokeFunction',
-      principal: 'iotanalytics.amazonaws.com',
-      sourceArn: `arn:aws:iotanalytics:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:pipeline/${smartProductTelemetryPipeline.ref}`,
-      sourceAccount: cdk.Aws.ACCOUNT_ID
-    })
+    // new lambda.CfnPermission(this, 'LambdaInvokeTelemetryPermission', {
+    //   functionName: `${smartProductTelemetryService.attrArn}`,
+    //   action: 'lambda:InvokeFunction',
+    //   principal: 'iotanalytics.amazonaws.com',
+    //   sourceArn: `arn:aws:iotanalytics:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:pipeline/${smartProductTelemetryPipeline.ref}`,
+    //   sourceAccount: cdk.Aws.ACCOUNT_ID
+    // })
   }
 }
