@@ -90,7 +90,7 @@ export class SmartProductJITR extends cdk.Construct {
           'logs:CreateLogStream',
           'logs:PutLogEvents'
         ],
-        resources: [`arn:aws:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${jitrService.functionName}:*`]
+        resources: [`arn:aws-cn:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${jitrService.functionName}:*`]
       })]
     })
     const jitrLogPolicyResource = jitrLogPolicy.node.findChild('Resource') as iam.CfnPolicy;

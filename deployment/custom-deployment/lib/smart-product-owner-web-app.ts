@@ -51,7 +51,7 @@ export class OwnerWebApp extends cdk.Construct {
           actions: [
             's3:GetObject'
           ],
-          resources: [`arn:aws:s3:::${process.env.BUILD_OUTPUT_BUCKET}/*`]
+          resources: [`arn:aws-cn:s3:::${process.env.BUILD_OUTPUT_BUCKET}/*`]
         })
       ]
     })

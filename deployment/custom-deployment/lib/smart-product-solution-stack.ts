@@ -183,7 +183,7 @@ export class SmartProductSolutionStack extends cdk.Stack {
             'logs:CreateLogStream',
             'logs:PutLogEvents'
           ],
-          resources: [`arn:aws:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/*`]
+          resources: [`arn:aws-cn:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/*`]
         }),
         new iam.PolicyStatement({
           actions: [
@@ -201,13 +201,13 @@ export class SmartProductSolutionStack extends cdk.Stack {
           actions: [
             'iot:CreateThingType'
           ],
-          resources: [`arn:aws:iot:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:thingtype/SmartProduct`]
+          resources: [`arn:aws-cn:iot:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:thingtype/SmartProduct`]
         }),
         new iam.PolicyStatement({
           actions: [
             'iam:PassRole'
           ],
-          resources: [`arn:aws:iam::${cdk.Aws.ACCOUNT_ID}:role/*`]
+          resources: [`arn:aws-cn:iam::${cdk.Aws.ACCOUNT_ID}:role/*`]
         })
       ]
     })
@@ -231,7 +231,7 @@ export class SmartProductSolutionStack extends cdk.Stack {
             'logs:CreateLogStream',
             'logs:PutLogEvents'
           ],
-          resources: [`arn:aws:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/*`]
+          resources: [`arn:aws-cn:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/*`]
         }),
         new iam.PolicyStatement({
           actions: [
@@ -255,7 +255,7 @@ export class SmartProductSolutionStack extends cdk.Stack {
     //=============================================================================================
     // Helper Function
     //=============================================================================================
-    const s3BuildOutputBucket = s3.Bucket.fromBucketArn(this, 'BuildOutputBucket', `arn:aws:s3:::${process.env.BUILD_OUTPUT_BUCKET}`);
+    const s3BuildOutputBucket = s3.Bucket.fromBucketArn(this, 'BuildOutputBucket', `arn:aws-cn:s3:::${process.env.BUILD_OUTPUT_BUCKET}`);
 
     const smartProductHelperLambdaRole = new iam.Role(this, 'SmartProductHelperRole', {
       assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),

@@ -226,7 +226,7 @@ Resources:
             Name: !Sub ${CodeCommitRepository}
             Description: 'build project for smart product'
             ServiceRole: !Sub ${CodeBuildRole.Arn}
-            EncryptionKey: !Sub arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3
+            EncryptionKey: !Sub arn:aws-cn:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3
             Source:
                 Type: CODEPIPELINE
                 BuildSpec: |
@@ -289,7 +289,7 @@ Resources:
             Name: !Sub ${CodeCommitRepository}-CDK
             Description: 'CDK project to deploy custom components for smart product'
             ServiceRole: !Sub ${CodeBuildRole.Arn}
-            EncryptionKey: !Sub arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3
+            EncryptionKey: !Sub arn:aws-cn:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3
             Source:
                 Type: CODEPIPELINE
                 BuildSpec: |
@@ -432,7 +432,7 @@ Resources:
                             - "logs:CreateLogStream"
                             - "logs:PutLogEvents"
                         Resource:
-                            - !Join ["", ["arn:aws:logs:", Ref: "AWS::Region", ":", Ref: "AWS::AccountId", ":log-group:/aws/lambda/", !Ref CICDHelper, ":*"]]
+                            - !Join ["", ["arn:aws-cn:logs:", Ref: "AWS::Region", ":", Ref: "AWS::AccountId", ":log-group:/aws/lambda/", !Ref CICDHelper, ":*"]]
                     -
                         Effect: "Allow"
                         Action:
@@ -446,7 +446,7 @@ Resources:
                         Action:
                             - "apigateway:Delete*"
                         Resource:
-                            - !Sub "arn:aws:apigateway:${AWS::Region}::*"
+                            - !Sub "arn:aws-cn:apigateway:${AWS::Region}::*"
                     -
                         Effect: "Allow"
                         Action:
@@ -454,7 +454,7 @@ Resources:
                             - "cloudformation:Describe*"
                             - "cloudformation:Delete*"
                         Resource:
-                            - !Sub "arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:*"
+                            - !Sub "arn:aws-cn:cloudformation:${AWS::Region}:${AWS::AccountId}:*"
                     -
                         Effect: "Allow"
                         Action:
@@ -462,14 +462,14 @@ Resources:
                             - "cognito-idp:DeleteUserPool"
                             - "cognito-idp:DeleteUserPoolClient"
                         Resource:
-                            - !Sub "arn:aws:cognito-idp:${AWS::Region}:${AWS::AccountId}:*"
+                            - !Sub "arn:aws-cn:cognito-idp:${AWS::Region}:${AWS::AccountId}:*"
                     -
                         Effect: "Allow"
                         Action:
                             - "dynamodb:DeleteTable"
                             - "dynamodb:Describe*"
                         Resource:
-                            - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:*"
+                            - !Sub "arn:aws-cn:dynamodb:${AWS::Region}:${AWS::AccountId}:*"
                     -
                         Effect: "Allow"
                         Action:
@@ -477,7 +477,7 @@ Resources:
                             - "iam:Describe*"
                             - "iam:DetachRolePolicy"
                         Resource:
-                            - !Sub "arn:aws:iam::${AWS::AccountId}:*"
+                            - !Sub "arn:aws-cn:iam::${AWS::AccountId}:*"
                     -
                         Effect: "Allow"
                         Action:
@@ -488,8 +488,8 @@ Resources:
                             - "iotanalytics:DeletePipeline"
                             - "iotanalytics:Describe*"
                         Resource:
-                            - !Sub "arn:aws:iot:${AWS::Region}:${AWS::AccountId}:*"
-                            - !Sub "arn:aws:iotanalytics:${AWS::Region}:${AWS::AccountId}:*"
+                            - !Sub "arn:aws-cn:iot:${AWS::Region}:${AWS::AccountId}:*"
+                            - !Sub "arn:aws-cn:iotanalytics:${AWS::Region}:${AWS::AccountId}:*"
                     -
                         Effect: "Allow"
                         Action:
@@ -497,21 +497,21 @@ Resources:
                             - "lambda:InvokeFunction"
                             - "lambda:RemovePermission"
                         Resource:
-                            - !Sub "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:*"
+                            - !Sub "arn:aws-cn:lambda:${AWS::Region}:${AWS::AccountId}:*"
                     -
                         Effect: "Allow"
                         Action:
                             - "sns:DeleteTopic"
                             - "sns:GetTopicAttributes"
                         Resource:
-                            - !Sub "arn:aws:sns:${AWS::Region}:${AWS::AccountId}:*"
+                            - !Sub "arn:aws-cn:sns:${AWS::Region}:${AWS::AccountId}:*"
 
                     -
                         Effect: "Allow"
                         Action:
                             - "s3:DeleteBucketPolicy"
                         Resource:
-                            - !Sub "arn:aws:s3:::*"
+                            - !Sub "arn:aws-cn:s3:::*"
                     -
                         Effect: "Allow"
                         Action:
@@ -526,7 +526,7 @@ Resources:
                         Action:
                             - "s3:GetObject"
                         Resource:
-                            - !Join ["", ["arn:aws:s3:::", !FindInMap ["SourceCode", "Source", "S3Bucket"], "-", !Ref "AWS::Region", "/", !FindInMap ["SourceCode", "Source", "KeyPrefix"], "/smart-product-solution.zip"]]
+                            - !Join ["", ["arn:aws-cn:s3:::", !FindInMap ["SourceCode", "Source", "S3Bucket"], "-", !Ref "AWS::Region", "/", !FindInMap ["SourceCode", "Source", "KeyPrefix"], "/smart-product-solution.zip"]]
             Roles:
                 -
                     Ref: "CICDHelperRole"
@@ -552,7 +552,7 @@ Resources:
                             "Statement": [
                                 {
                                     "Action": [ "s3:GetBucketVersioning" ],
-                                    "Resource": [ "arn:aws:s3:::${ArtifactS3Bucket}" ],
+                                    "Resource": [ "arn:aws-cn:s3:::${ArtifactS3Bucket}" ],
                                     "Effect": "Allow"
                                 },
                                 {
@@ -562,7 +562,7 @@ Resources:
                                         "S3:GetObjectVersion"
                                     ],
                                     "Resource": [
-                                        "arn:aws:s3:::${ArtifactS3Bucket}/*"
+                                        "arn:aws-cn:s3:::${ArtifactS3Bucket}/*"
                                     ],
                                     "Effect": "Allow"
                                 },
@@ -574,7 +574,7 @@ Resources:
                                         "codecommit:List*",
                                         "codecommit:GitPull"
                                     ],
-                                    "Resource": "arn:aws:codecommit:${AWS::Region}:${AWS::AccountId}:${CodeCommitRepository}",
+                                    "Resource": "arn:aws-cn:codecommit:${AWS::Region}:${AWS::AccountId}:${CodeCommitRepository}",
                                     "Effect": "Allow"
                                 },
                                 {
@@ -583,8 +583,8 @@ Resources:
                                         "codebuild:StartBuild"
                                     ],
                                     "Resource": [
-                                        "arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:project/${CodeBuild}",
-                                        "arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:project/${CodeBuildCDK}"
+                                        "arn:aws-cn:codebuild:${AWS::Region}:${AWS::AccountId}:project/${CodeBuild}",
+                                        "arn:aws-cn:codebuild:${AWS::Region}:${AWS::AccountId}:project/${CodeBuildCDK}"
                                     ],
                                     "Effect": "Allow"
                                 }
@@ -612,7 +612,7 @@ Resources:
                             "Statement": [
                                 {
                                     "Effect": "Allow",
-                                    "Resource": [ "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/*" ],
+                                    "Resource": [ "arn:aws-cn:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/*" ],
                                     "Action": [
                                         "logs:CreateLogGroup",
                                         "logs:CreateLogStream",
@@ -622,8 +622,8 @@ Resources:
                                 {
                                     "Effect": "Allow",
                                     "Resource": [
-                                        "arn:aws:s3:::${ArtifactS3Bucket}/*",
-                                        "arn:aws:s3:::${DevOutputBucket}/*"
+                                        "arn:aws-cn:s3:::${ArtifactS3Bucket}/*",
+                                        "arn:aws-cn:s3:::${DevOutputBucket}/*"
                                     ],
                                     "Action": [
                                         "s3:GetObject",
@@ -633,7 +633,7 @@ Resources:
                                 },
                                 {
                                     "Effect": "Allow",
-                                    "Resource": "arn:aws:apigateway:${AWS::Region}::*",
+                                    "Resource": "arn:aws-cn:apigateway:${AWS::Region}::*",
                                     "Action": [
                                         "apigateway:Post",
                                         "apigateway:Get*",
@@ -645,7 +645,7 @@ Resources:
                                 },
                                 {
                                     "Effect": "Allow",
-                                    "Resource": "arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:*",
+                                    "Resource": "arn:aws-cn:cloudformation:${AWS::Region}:${AWS::AccountId}:*",
                                     "Action": [
                                         "cloudformation:GetTemplate",
                                         "cloudformation:DescribeStacks",
@@ -659,7 +659,7 @@ Resources:
                                 },
                                 {
                                     "Effect": "Allow",
-                                    "Resource": "arn:aws:cognito-idp:${AWS::Region}:${AWS::AccountId}:*",
+                                    "Resource": "arn:aws-cn:cognito-idp:${AWS::Region}:${AWS::AccountId}:*",
                                     "Action": [
                                         "cognito-idp:CreateUser",
                                         "cognito-idp:CreateUserPoolClient",
@@ -670,7 +670,7 @@ Resources:
                                 },
                                 {
                                     "Effect": "Allow",
-                                    "Resource": "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:*",
+                                    "Resource": "arn:aws-cn:dynamodb:${AWS::Region}:${AWS::AccountId}:*",
                                     "Action": [
                                         "dynamodb:CreateTable",
                                         "dynamodb:DescribeTable",
@@ -679,7 +679,7 @@ Resources:
                                 },
                                 {
                                     "Effect": "Allow",
-                                    "Resource": "arn:aws:iam::${AWS::AccountId}:*",
+                                    "Resource": "arn:aws-cn:iam::${AWS::AccountId}:*",
                                     "Action": [
                                         "iam:CreateRole",
                                         "iam:GetRole",
@@ -694,7 +694,7 @@ Resources:
                                 },
                                 {
                                     "Effect": "Allow",
-                                    "Resource": "arn:aws:iot:${AWS::Region}:${AWS::AccountId}:*",
+                                    "Resource": "arn:aws-cn:iot:${AWS::Region}:${AWS::AccountId}:*",
                                     "Action": [
                                         "iot:CreateTopicRule",
                                         "iot:ReplaceTopicRule",
@@ -704,7 +704,7 @@ Resources:
                                 },
                                 {
                                     "Effect": "Allow",
-                                    "Resource": "arn:aws:iotanalytics:${AWS::Region}:${AWS::AccountId}:*",
+                                    "Resource": "arn:aws-cn:iotanalytics:${AWS::Region}:${AWS::AccountId}:*",
                                     "Action": [
                                         "iotanalytics:CreateChannel",
                                         "iotanalytics:DescribeChannel",
@@ -724,7 +724,7 @@ Resources:
                                 },
                                 {
                                     "Effect": "Allow",
-                                    "Resource": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:*",
+                                    "Resource": "arn:aws-cn:lambda:${AWS::Region}:${AWS::AccountId}:*",
                                     "Action": [
                                         "lambda:CreateFunction",
                                         "lambda:AddPermission",
@@ -738,7 +738,7 @@ Resources:
                                 },
                                 {
                                     "Effect": "Allow",
-                                    "Resource": "arn:aws:sns:${AWS::Region}:${AWS::AccountId}:*",
+                                    "Resource": "arn:aws-cn:sns:${AWS::Region}:${AWS::AccountId}:*",
                                     "Action": [
                                         "sns:DeleteTopic",
                                         "sns:CreateTopic",
@@ -749,7 +749,7 @@ Resources:
                                 {
                                     "Effect": "Allow",
                                     "Resource": [
-                                        "arn:aws:s3:::*"
+                                        "arn:aws-cn:s3:::*"
                                     ],
                                     "Action": [
 
@@ -796,7 +796,7 @@ Resources:
                         -
                             Effect: Allow
                             Action: codepipeline:StartPipelineExecution
-                            Resource: !Join [ '', [ 'arn:aws:codepipeline:', !Ref 'AWS::Region', ':', !Ref 'AWS::AccountId', ':', !Ref DevCodePipeline ] ]
+                            Resource: !Join [ '', [ 'arn:aws-cn:codepipeline:', !Ref 'AWS::Region', ':', !Ref 'AWS::AccountId', ':', !Ref DevCodePipeline ] ]
     # IAM resources [start]
 
     # CloudWatch resources [start]
@@ -809,7 +809,7 @@ Resources:
                 detail-type:
                     - 'CodeCommit Repository State Change'
                 resources:
-                    - !Join [ '', [ 'arn:aws:codecommit:', !Ref 'AWS::Region', ':', !Ref 'AWS::AccountId', ':', !Ref CodeCommitRepository ] ]
+                    - !Join [ '', [ 'arn:aws-cn:codecommit:', !Ref 'AWS::Region', ':', !Ref 'AWS::AccountId', ':', !Ref CodeCommitRepository ] ]
                 detail:
                     event:
                         - referenceCreated
@@ -821,7 +821,7 @@ Resources:
             Targets:
                 -
                     Arn:
-                        !Join [ '', [ 'arn:aws:codepipeline:', !Ref 'AWS::Region', ':', !Ref 'AWS::AccountId', ':', !Ref DevCodePipeline ] ]
+                        !Join [ '', [ 'arn:aws-cn:codepipeline:', !Ref 'AWS::Region', ':', !Ref 'AWS::AccountId', ':', !Ref DevCodePipeline ] ]
                     RoleArn: !GetAtt AmazonCloudWatchEventRole.Arn
                     Id: codepipeline-smart-product
 

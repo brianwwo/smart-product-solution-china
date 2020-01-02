@@ -42,7 +42,7 @@ const respond = async event => {
   const eventTopic = process.env.EVENT_TOPIC; //for device events
   const commandTopic = 'smartproduct/commands'; //for device responses to commands
 
-  const certificateARN = `arn:aws:iot:${region}:${accountId}:cert/${certificateId}`;
+  const certificateARN = `arn:aws-cn:iot:${region}:${accountId}:cert/${certificateId}`;
   const policyName = `${certificateId}`;
 
   // Policy that allows connect, publish, subscribe and receive
@@ -53,7 +53,7 @@ const respond = async event => {
       {
         Effect: 'Allow',
         Action: ['iot:Connect'],
-        Resource: `arn:aws:iot:${region}:${accountId}:client/${iotThingName}`,
+        Resource: `arn:aws-cn:iot:${region}:${accountId}:client/${iotThingName}`,
       },
       {
         Effect: 'Allow',
@@ -61,32 +61,32 @@ const respond = async event => {
           'iot:GetThingShadow',
           'iot:UpdateThingShadow',
         ],
-        Resource: `arn:aws:iot:${region}:${accountId}:thing/${iotThingName}`
+        Resource: `arn:aws-cn:iot:${region}:${accountId}:thing/${iotThingName}`
       },
       {
         Effect: 'Allow',
         Action: ['iot:Publish'],
         Resource: [
-          `arn:aws:iot:${region}:${accountId}:topic/${telemetryTopic}/${iotThingName}`,
-          `arn:aws:iot:${region}:${accountId}:topic/${eventTopic}/${iotThingName}`,
-          `arn:aws:iot:${region}:${accountId}:topic/${commandTopic}/${iotThingName}`,
-          `arn:aws:iot:${region}:${accountId}:topic/$aws/things/${iotThingName}/shadow/*`,
+          `arn:aws-cn:iot:${region}:${accountId}:topic/${telemetryTopic}/${iotThingName}`,
+          `arn:aws-cn:iot:${region}:${accountId}:topic/${eventTopic}/${iotThingName}`,
+          `arn:aws-cn:iot:${region}:${accountId}:topic/${commandTopic}/${iotThingName}`,
+          `arn:aws-cn:iot:${region}:${accountId}:topic/$aws/things/${iotThingName}/shadow/*`,
         ],
       },
       {
         Effect: 'Allow',
         Action: ['iot:Subscribe'],
         Resource: [
-          `arn:aws:iot:${region}:${accountId}:topicfilter/$aws/things/${iotThingName}/shadow/*`,
-          `arn:aws:iot:${region}:${accountId}:topicfilter/${commandTopic}/${iotThingName}`,
+          `arn:aws-cn:iot:${region}:${accountId}:topicfilter/$aws/things/${iotThingName}/shadow/*`,
+          `arn:aws-cn:iot:${region}:${accountId}:topicfilter/${commandTopic}/${iotThingName}`,
         ],
       },
       {
         Effect: 'Allow',
         Action: ['iot:Receive'],
         Resource: [
-          `arn:aws:iot:${region}:${accountId}:topic/$aws/things/${iotThingName}/shadow/*`,
-          `arn:aws:iot:${region}:${accountId}:topic/${commandTopic}/${iotThingName}`,
+          `arn:aws-cn:iot:${region}:${accountId}:topic/$aws/things/${iotThingName}/shadow/*`,
+          `arn:aws-cn:iot:${region}:${accountId}:topic/${commandTopic}/${iotThingName}`,
         ],
       },
     ],

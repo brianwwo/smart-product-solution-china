@@ -112,7 +112,7 @@ export class SmartProductEvent extends cdk.Construct {
           'logs:CreateLogStream',
           'logs:PutLogEvents'
         ],
-        resources: [`arn:aws:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${notificationService.functionName}:*`]
+        resources: [`arn:aws-cn:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${notificationService.functionName}:*`]
       })]
     })
     const notificationLogPolicyResource = notificationLogPolicy.node.findChild('Resource') as iam.CfnPolicy;
@@ -189,7 +189,7 @@ export class SmartProductEvent extends cdk.Construct {
           'logs:CreateLogStream',
           'logs:PutLogEvents'
         ],
-        resources: [`arn:aws:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${eventProxyService.functionName}:*`]
+        resources: [`arn:aws-cn:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${eventProxyService.functionName}:*`]
       })]
     })
     const eventLogPolicyResource = eventLogPolicy.node.findChild('Resource') as iam.CfnPolicy;
@@ -242,7 +242,7 @@ export class SmartProductEvent extends cdk.Construct {
       functionName: `${eventProxyService.attrArn}`,
       action: 'lambda:InvokeFunction',
       principal: 'iot.amazonaws.com',
-      sourceArn: `arn:aws:iot:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:rule/${eventRule.ruleName}`,
+      sourceArn: `arn:aws-cn:iot:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:rule/${eventRule.ruleName}`,
       sourceAccount: cdk.Aws.ACCOUNT_ID
     })
   }

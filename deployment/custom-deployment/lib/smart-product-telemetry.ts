@@ -118,7 +118,7 @@ export class SmartProductTelemetry extends cdk.Construct {
     //     actions: [
     //       'iotanalytics:BatchPutMessage'
     //     ],
-    //     resources: [`arn:aws:iotanalytics:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:channel/${smartProductTelemetryChannel.ref}`]
+    //     resources: [`arn:aws-cn:iotanalytics:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:channel/${smartProductTelemetryChannel.ref}`]
     //   })]
     // })
     // telemetryPolicy.attachToRole(smartProductTelemetryRole);
@@ -130,7 +130,7 @@ export class SmartProductTelemetry extends cdk.Construct {
           'logs:CreateLogStream',
           'logs:PutLogEvents'
         ],
-        resources: [`arn:aws:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${smartProductTelemetryService.functionName}:*`]
+        resources: [`arn:aws-cn:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${smartProductTelemetryService.functionName}:*`]
       })]
     })
     const serviceLogPolicyResource = serviceLogPolicy.node.findChild('Resource') as iam.CfnPolicy;
@@ -148,7 +148,7 @@ export class SmartProductTelemetry extends cdk.Construct {
     //   functionName: `${smartProductTelemetryService.attrArn}`,
     //   action: 'lambda:InvokeFunction',
     //   principal: 'iotanalytics.amazonaws.com',
-    //   sourceArn: `arn:aws:iotanalytics:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:pipeline/${smartProductTelemetryPipeline.ref}`,
+    //   sourceArn: `arn:aws-cn:iotanalytics:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:pipeline/${smartProductTelemetryPipeline.ref}`,
     //   sourceAccount: cdk.Aws.ACCOUNT_ID
     // })
   }

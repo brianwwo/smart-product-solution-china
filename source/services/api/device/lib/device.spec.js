@@ -37,7 +37,7 @@ describe('Device', function() {
 
   const iotDevice = {
     thingId: "23da892a-0268-49d8-9a7b-c8548b4605f1",
-    thingArn: "arn:aws:iot:region:accountId:thing/something",
+    thingArn: "arn:aws-cn:iot:region:accountId:thing/something",
     attributes: {
         modelNumber: "model-number",
         userId: "085e4e22-bd06-4ca6-b913-SUBSAMPLE",
@@ -192,7 +192,7 @@ describe('Device', function() {
 
     const principals = {
       principals: [
-          "arn:aws:iot:region:xxxxxxxxxxxx:cert/some-cert-example-id"
+          "arn:aws-cn:iot:region:xxxxxxxxxxxx:cert/some-cert-example-id"
       ]
     };
 

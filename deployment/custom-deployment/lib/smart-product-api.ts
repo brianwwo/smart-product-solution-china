@@ -165,7 +165,7 @@ export class SmartProductApi extends cdk.Construct {
       functionName: "SmartProductAPI-AdminService",
       description: "Smart Product administration API microservice",
       code: new lambda.S3Code(
-        s3.Bucket.fromBucketArn(this, 'AdminBuildOutputBucket', `arn:aws:s3:::${process.env.BUILD_OUTPUT_BUCKET}`),
+        s3.Bucket.fromBucketArn(this, 'AdminBuildOutputBucket', `arn:aws-cn:s3:::${process.env.BUILD_OUTPUT_BUCKET}`),
         `smart-product-solution/${props.solutionVersion}/smart-product-admin-service.zip`
       ),
       handler: 'index.handler',
@@ -188,7 +188,7 @@ export class SmartProductApi extends cdk.Construct {
       functionName: "SmartProductAPI-RegistrationService",
       description: "Smart Product Solution registration API microservice",
       code: new lambda.S3Code(
-        s3.Bucket.fromBucketArn(this, 'RegistrationBuildOutputBucket', `arn:aws:s3:::${process.env.BUILD_OUTPUT_BUCKET}`),
+        s3.Bucket.fromBucketArn(this, 'RegistrationBuildOutputBucket', `arn:aws-cn:s3:::${process.env.BUILD_OUTPUT_BUCKET}`),
         `smart-product-solution/${props.solutionVersion}/smart-product-registration-service.zip`
       ),
       handler: 'index.handler',
@@ -216,7 +216,7 @@ export class SmartProductApi extends cdk.Construct {
       functionName: "SmartProductAPI-EventService",
       description: "Smart Product Solution event API microservice",
       code: new lambda.S3Code(
-        s3.Bucket.fromBucketArn(this, 'EventBuildOutputBucket', `arn:aws:s3:::${process.env.BUILD_OUTPUT_BUCKET}`),
+        s3.Bucket.fromBucketArn(this, 'EventBuildOutputBucket', `arn:aws-cn:s3:::${process.env.BUILD_OUTPUT_BUCKET}`),
         `smart-product-solution/${props.solutionVersion}/smart-product-event-service.zip`
       ),
       handler: 'index.handler',
@@ -241,7 +241,7 @@ export class SmartProductApi extends cdk.Construct {
       functionName: "SmartProductAPI-CommandService",
       description: "Smart Product Solution command API microservice",
       code: new lambda.S3Code(
-        s3.Bucket.fromBucketArn(this, 'CommandBuildOutputBucket', `arn:aws:s3:::${process.env.BUILD_OUTPUT_BUCKET}`),
+        s3.Bucket.fromBucketArn(this, 'CommandBuildOutputBucket', `arn:aws-cn:s3:::${process.env.BUILD_OUTPUT_BUCKET}`),
         `smart-product-solution/${props.solutionVersion}/smart-product-command-service.zip`
       ),
       handler: 'index.handler',
@@ -268,7 +268,7 @@ export class SmartProductApi extends cdk.Construct {
       functionName: "SmartProductAPI-StatusService",
       description: "Smart Product Solution status API microservice",
       code: new lambda.S3Code(
-        s3.Bucket.fromBucketArn(this, 'StatusBuildOutputBucket', `arn:aws:s3:::${process.env.BUILD_OUTPUT_BUCKET}`),
+        s3.Bucket.fromBucketArn(this, 'StatusBuildOutputBucket', `arn:aws-cn:s3:::${process.env.BUILD_OUTPUT_BUCKET}`),
         `smart-product-solution/${props.solutionVersion}/smart-product-status-service.zip`
       ),
       handler: 'index.handler',
@@ -291,7 +291,7 @@ export class SmartProductApi extends cdk.Construct {
       functionName: "SmartProductAPI-DeviceService",
       description: "Smart Product Solution device microservice",
       code: new lambda.S3Code(
-        s3.Bucket.fromBucketArn(this, 'DeviceBuildOutputBucket', `arn:aws:s3:::${process.env.BUILD_OUTPUT_BUCKET}`),
+        s3.Bucket.fromBucketArn(this, 'DeviceBuildOutputBucket', `arn:aws-cn:s3:::${process.env.BUILD_OUTPUT_BUCKET}`),
         `smart-product-solution/${props.solutionVersion}/smart-product-device-service.zip`
       ),
       handler: 'index.handler',
@@ -311,7 +311,7 @@ export class SmartProductApi extends cdk.Construct {
       functionName: "SmartProductAPI-CommandStatusService",
       description: "Smart Product Solution command status microservice",
       code: new lambda.S3Code(
-        s3.Bucket.fromBucketArn(this, 'CommandStatusBuildOutputBucket', `arn:aws:s3:::${process.env.BUILD_OUTPUT_BUCKET}`),
+        s3.Bucket.fromBucketArn(this, 'CommandStatusBuildOutputBucket', `arn:aws-cn:s3:::${process.env.BUILD_OUTPUT_BUCKET}`),
         `smart-product-solution/${props.solutionVersion}/smart-product-command-status.zip`
       ),
       handler: 'index.handler',
@@ -358,7 +358,7 @@ export class SmartProductApi extends cdk.Construct {
     });
     const apiStageResource = api.deploymentStage.node.findChild('Resource') as apigateway.CfnStage;
     apiStageResource.addPropertyOverride('AccessLogSetting', {
-      DestinationArn: `arn:aws:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:API-Gateway-Execution-Logs_${api.restApiId}/prod`,
+      DestinationArn: `arn:aws-cn:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:API-Gateway-Execution-Logs_${api.restApiId}/prod`,
       Format: `{ "requestId": "$context.requestId",
         "ip": "$context.identity.sourceIp",
         "caller": "$context.identity.caller",
@@ -472,7 +472,7 @@ export class SmartProductApi extends cdk.Construct {
       functionName: `${commandStatusService.functionArn}`,
       action: 'lambda:InvokeFunction',
       principal: 'iot.amazonaws.com',
-      sourceArn: `arn:aws:iot:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:rule/${commandStatusRule.ruleName}`,
+      sourceArn: `arn:aws-cn:iot:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:rule/${commandStatusRule.ruleName}`,
       sourceAccount: cdk.Aws.ACCOUNT_ID
     })
 
@@ -488,7 +488,7 @@ export class SmartProductApi extends cdk.Construct {
             'logs:CreateLogStream',
             'logs:PutLogEvents'
           ],
-          resources: [`arn:aws:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${registrationService.functionName}:*`]
+          resources: [`arn:aws-cn:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${registrationService.functionName}:*`]
         }),
 
         // DynamoDB
@@ -521,7 +521,7 @@ export class SmartProductApi extends cdk.Construct {
         // IoT
         new iam.PolicyStatement({
           actions: ['iot:CreateThing'],
-          resources: [`arn:aws:iot:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:thing/*`]
+          resources: [`arn:aws-cn:iot:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:thing/*`]
         })
       ]
     })
@@ -548,7 +548,7 @@ export class SmartProductApi extends cdk.Construct {
             'logs:CreateLogStream',
             'logs:PutLogEvents'
           ],
-          resources: [`arn:aws:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${adminService.functionName}:*`]
+          resources: [`arn:aws-cn:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${adminService.functionName}:*`]
         }),
 
         // DynamoDB
@@ -593,7 +593,7 @@ export class SmartProductApi extends cdk.Construct {
             'logs:CreateLogStream',
             'logs:PutLogEvents'
           ],
-          resources: [`arn:aws:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${eventService.functionName}:*`]
+          resources: [`arn:aws-cn:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${eventService.functionName}:*`]
         }),
 
         // DynamoDB
@@ -655,8 +655,8 @@ export class SmartProductApi extends cdk.Construct {
             'logs:PutLogEvents'
           ],
           resources: [
-            `arn:aws:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${commandService.functionName}:*`,
-            `arn:aws:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${commandStatusService.functionName}:*`
+            `arn:aws-cn:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${commandService.functionName}:*`,
+            `arn:aws-cn:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${commandStatusService.functionName}:*`
           ]
         }),
 
@@ -722,7 +722,7 @@ export class SmartProductApi extends cdk.Construct {
             'logs:CreateLogStream',
             'logs:PutLogEvents'
           ],
-          resources: [`arn:aws:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${statusService.functionName}:*`]
+          resources: [`arn:aws-cn:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${statusService.functionName}:*`]
         }),
 
         // DynamoDB
@@ -774,7 +774,7 @@ export class SmartProductApi extends cdk.Construct {
             'logs:CreateLogStream',
             'logs:PutLogEvents'
           ],
-          resources: [`arn:aws:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${deviceService.functionName}:*`]
+          resources: [`arn:aws-cn:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${deviceService.functionName}:*`]
         }),
 
         // DynamoDB
@@ -801,26 +801,26 @@ export class SmartProductApi extends cdk.Construct {
             'iot:SearchIndex',
             'iot:DescribeIndex'
           ],
-          resources: [`arn:aws:iot:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:index/AWS_Things`]
+          resources: [`arn:aws-cn:iot:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:index/AWS_Things`]
         }), new iam.PolicyStatement({
           actions: [
             'iot:DeleteThing',
             'iot:DescribeThing',
             'iot:ListThingPrincipals'
           ],
-          resources: [`arn:aws:iot:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:thing/*`]
+          resources: [`arn:aws-cn:iot:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:thing/*`]
         }), new iam.PolicyStatement({
           actions: [
             'iot:DeletePolicy'
           ],
-          resources: [`arn:aws:iot:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:policy/*`]
+          resources: [`arn:aws-cn:iot:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:policy/*`]
         }), new iam.PolicyStatement({
           actions: [
             'iot:DetachThingPrincipal',
             'iot:DeleteCertificate',
             'iot:UpdateCertificate'
           ],
-          resources: [`arn:aws:iot:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:cert/*`]
+          resources: [`arn:aws-cn:iot:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:cert/*`]
         })
       ]
     })
