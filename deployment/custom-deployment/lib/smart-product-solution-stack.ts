@@ -13,7 +13,7 @@
 
 import cdk = require('@aws-cdk/core');
 import dynamodb = require('@aws-cdk/aws-dynamodb');
-import cognito = require('@aws-cdk/aws-cognito');
+// import cognito = require('@aws-cdk/aws-cognito');
 import iam = require('@aws-cdk/aws-iam');
 import lambda = require('@aws-cdk/aws-lambda');
 import cfn = require('@aws-cdk/aws-cloudformation');
@@ -336,20 +336,20 @@ export class SmartProductSolutionStack extends cdk.Stack {
     //=============================================================================================
     // Cognito
     //=============================================================================================
-    const userPool = new cognito.UserPool(this, 'SmartProductUserPool', {
-      userPoolName: 'smart-product-pool',
-      signInType: cognito.SignInType.EMAIL,
-      autoVerifiedAttributes: [cognito.UserPoolAttribute.EMAIL],
-      lambdaTriggers: {
-        postConfirmation: smartProductCognitoHelperFunction
-      }
-    })
+    // const userPool = new cognito.UserPool(this, 'SmartProductUserPool', {
+    //   userPoolName: 'smart-product-pool',
+    //   signInType: cognito.SignInType.EMAIL,
+    //   autoVerifiedAttributes: [cognito.UserPoolAttribute.EMAIL],
+    //   lambdaTriggers: {
+    //     postConfirmation: smartProductCognitoHelperFunction
+    //   }
+    // })
 
-    const userPoolClient = new cognito.UserPoolClient(this, 'SmartProductAppClient', {
-      userPool: userPool,
-      userPoolClientName: 'smart-product-app',
-      generateSecret: false
-    })
+    // const userPoolClient = new cognito.UserPoolClient(this, 'SmartProductAppClient', {
+    //   userPool: userPool,
+    //   userPoolClientName: 'smart-product-app',
+    //   generateSecret: false
+    // })
 
     this.apiEndpoint = '';
     //=============================================================================================
@@ -359,8 +359,8 @@ export class SmartProductSolutionStack extends cdk.Stack {
       const smartProductApi = new SmartProductApi(this, 'SmartProductApi', {
         helperFunction: cfn.CustomResourceProvider.lambda(smartProductHelperFunction),
         helperFunctionRole: smartProductHelperLambdaRole,
-        userPool: userPool,
-        userPoolClient: userPoolClient,
+        // userPool: userPool,
+        // userPoolClient: userPoolClient,
         settingsTable: settingsTable,
         registrationTable: registrationTable,
         commandTable: commandTable,
@@ -392,7 +392,7 @@ export class SmartProductSolutionStack extends cdk.Stack {
       new SmartProductEvent(this, 'SmartProductEvent', {
         eventsTable: eventsTable,
         registrationTable: registrationTable,
-        userPool: userPool,
+        // userPool: userPool,
         settingsTable: settingsTable,
         solutionVersion: spConfig.default.version,
         eventTopic: spConfig.default.events.env.eventTopic
@@ -421,8 +421,8 @@ export class SmartProductSolutionStack extends cdk.Stack {
       new OwnerWebApp(this, 'SmartProductOwnerWebApp', {
         helperFunction: cfn.CustomResourceProvider.lambda(smartProductHelperFunction),
         helperFunctionRole: smartProductHelperLambdaRole,
-        userPool: userPool,
-        userPoolClient: userPoolClient,
+        // userPool: userPool,
+        // userPoolClient: userPoolClient,
         apiEndpoint: this.apiEndpoint,
         solutionVersion: spConfig.default.version
       })

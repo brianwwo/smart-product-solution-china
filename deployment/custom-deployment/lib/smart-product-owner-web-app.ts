@@ -16,13 +16,13 @@ import iam = require('@aws-cdk/aws-iam');
 import s3 = require('@aws-cdk/aws-s3');
 import cloudfront = require('@aws-cdk/aws-cloudfront');
 import cfn = require('@aws-cdk/aws-cloudformation');
-import cognito = require('@aws-cdk/aws-cognito');
+// import cognito = require('@aws-cdk/aws-cognito');
 
 export interface OwnerWebAppProps {
   helperFunction: cfn.CustomResourceProvider;
   helperFunctionRole: iam.Role;
-  userPool: cognito.UserPool;
-  userPoolClient: cognito.UserPoolClient;
+  // userPool: cognito.UserPool;
+  // userPoolClient: cognito.UserPoolClient;
   apiEndpoint: string;
   solutionVersion: string;
 }
@@ -88,8 +88,8 @@ export class OwnerWebApp extends cdk.Construct {
         DestS3Bucket: smartProductWebsiteBucket.bucketName,
         DestS3key: 'assets/smart_product_config.js',
         ConfigItem: {
-          aws_user_pools_id: props.userPool.userPoolId,
-          aws_user_pools_web_client_id: props.userPoolClient.userPoolClientId,
+          // aws_user_pools_id: props.userPool.userPoolId,
+          // aws_user_pools_web_client_id: props.userPoolClient.userPoolClientId,
           endpoint: props.apiEndpoint,
           region: `${cdk.Aws.REGION}`
         }

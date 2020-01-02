@@ -51,7 +51,7 @@ export class SmartProductDeviceDefender extends cdk.Construct {
 					'iot:ListPolicies',
 					'iot:GetPolicy',
 					'iot:GetEffectivePolicies',
-					'cognito-identity:GetIdentityPoolRoles',
+					// 'cognito-identity:GetIdentityPoolRoles',
 					'iam:ListRolePolicies',
 					'iam:ListAttachedRolePolicies',
 					'iam:GetPolicy',

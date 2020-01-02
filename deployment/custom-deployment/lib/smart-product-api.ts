@@ -14,7 +14,7 @@
 import cdk = require('@aws-cdk/core');
 import iam = require('@aws-cdk/aws-iam');
 import cfn = require('@aws-cdk/aws-cloudformation');
-import cognito = require('@aws-cdk/aws-cognito');
+// import cognito = require('@aws-cdk/aws-cognito');
 import dynamodb = require('@aws-cdk/aws-dynamodb');
 import lambda = require('@aws-cdk/aws-lambda');
 import iot = require('@aws-cdk/aws-iot');
@@ -24,8 +24,8 @@ import s3 = require('@aws-cdk/aws-s3');
 export interface ApiProps {
   helperFunction: cfn.CustomResourceProvider;
   helperFunctionRole: iam.Role;
-  userPool: cognito.UserPool;
-  userPoolClient: cognito.UserPoolClient;
+  // userPool: cognito.UserPool;
+  // userPoolClient: cognito.UserPoolClient;
   settingsTable: dynamodb.Table;
   registrationTable: dynamodb.Table;
   commandTable: dynamodb.Table;
@@ -72,14 +72,14 @@ export function addMethod(resources: IMethodResource[], apiLambdaExecRole: iam.R
       }
     );
 
-    let anyMethod = apiResource.addMethod('ANY', new apigateway.LambdaIntegration(lambdaFunction), {
-      authorizer: { authorizerId },
-      authorizationType: apigateway.AuthorizationType.COGNITO
-    });
+    // let anyMethod = apiResource.addMethod('ANY', new apigateway.LambdaIntegration(lambdaFunction), {
+    //   authorizer: { authorizerId },
+    //   authorizationType: apigateway.AuthorizationType.COGNITO
+    // });
 
     apiDeployment.node.addDependency(apiResource.node.findChild('Resource') as cdk.Resource);
     apiDeployment.node.addDependency(options.node.findChild('Resource') as cdk.Resource);
-    apiDeployment.node.addDependency(anyMethod.node.findChild('Resource') as cdk.Resource);
+    // apiDeployment.node.addDependency(anyMethod.node.findChild('Resource') as cdk.Resource);
   }
 }
 
@@ -146,7 +146,7 @@ export class SmartProductApi extends cdk.Construct {
         ddbItem: {
           settingId: 'app-config',
           setting: {
-            idp: props.userPool.userPoolId
+            // idp: props.userPool.userPoolId
           }
         }
       }
@@ -174,7 +174,7 @@ export class SmartProductApi extends cdk.Construct {
       role: adminServiceRole,
       environment: {
         LOGGING_LEVEL: '2',
-        IDP: props.userPool.userPoolId,
+        // IDP: props.userPool.userPoolId,
         SETTINGS_TBL: props.settingsTable.tableName
       },
     })
@@ -197,7 +197,7 @@ export class SmartProductApi extends cdk.Construct {
       role: registrationServiceRole,
       environment: {
         LOGGING_LEVEL: '2',
-        IDP: props.userPool.userPoolId,
+        // IDP: props.userPool.userPoolId,
         REGISTRATION_TBL: props.registrationTable.tableName,
         REFERENCE_TBL: props.referenceTable.tableName,
         THING_TYPE: 'SmartProduct',
@@ -225,7 +225,7 @@ export class SmartProductApi extends cdk.Construct {
       role: eventServiceRole,
       environment: {
         LOGGING_LEVEL: '2',
-        IDP: props.userPool.userPoolId,
+        // IDP: props.userPool.userPoolId,
         SETTINGS_TBL: props.settingsTable.tableName,
         REGISTRATION_TBL: props.registrationTable.tableName,
         EVENTS_TBL: props.eventsTable.tableName
@@ -250,7 +250,7 @@ export class SmartProductApi extends cdk.Construct {
       role: commandServiceRole,
       environment: {
         LOGGING_LEVEL: '2',
-        IDP: props.userPool.userPoolId,
+        // IDP: props.userPool.userPoolId,
         REGISTRATION_TBL: props.registrationTable.tableName,
         COMMANDS_TBL: props.commandTable.tableName,
         solutionId: props.solutionId,
@@ -277,7 +277,7 @@ export class SmartProductApi extends cdk.Construct {
       role: statusServiceRole,
       environment: {
         LOGGING_LEVEL: '2',
-        IDP: props.userPool.userPoolId,
+        // IDP: props.userPool.userPoolId,
         REGISTRATION_TBL: props.registrationTable.tableName
       }
     })
@@ -300,7 +300,7 @@ export class SmartProductApi extends cdk.Construct {
       role: deviceServiceRole,
       environment: {
         LOGGING_LEVEL: '2',
-        IDP: props.userPool.userPoolId,
+        // IDP: props.userPool.userPoolId,
         REGISTRATION_TBL: props.registrationTable.tableName
       }
     })
@@ -371,13 +371,13 @@ export class SmartProductApi extends cdk.Construct {
       }`.replace(/\n/g, '')
     });
 
-    const authorizer = new apigateway.CfnAuthorizer(this, 'Authorizer', {
-      identitySource: 'method.request.header.Authorization',
-      name: 'Authorization',
-      type: 'COGNITO_USER_POOLS',
-      providerArns: [props.userPool.userPoolArn],
-      restApiId: api.restApiId
-    });
+    // const authorizer = new apigateway.CfnAuthorizer(this, 'Authorizer', {
+    //   identitySource: 'method.request.header.Authorization',
+    //   name: 'Authorization',
+    //   type: 'COGNITO_USER_POOLS',
+    //   providerArns: [props.userPool.userPoolArn],
+    //   restApiId: api.restApiId
+    // });
 
     const adminRes = api.root.addResource("admin");
     apiDeployment.node.addDependency(adminRes.node.findChild('Resource') as cdk.Resource);
@@ -433,7 +433,7 @@ export class SmartProductApi extends cdk.Construct {
         { apiResource: deviceEventRes, lambdaFunction: eventService},
         { apiResource: statusRes, lambdaFunction: statusService}
       ]
-      , apiLambdaExecRole, authorizer.ref, apiDeployment);
+      , apiLambdaExecRole, '', apiDeployment);
 
     //---------------------------------------------------------------------------------------------
     // Others
@@ -508,13 +508,13 @@ export class SmartProductApi extends cdk.Construct {
         }),
 
         // Cognito
-        new iam.PolicyStatement({
-          actions: [
-            'cognito-idp:AdminGetUser',
-            'cognito-idp:AdminListGroupsForUser'
-          ],
-          resources: [`${props.userPool.userPoolArn}`]
-        }),
+        // new iam.PolicyStatement({
+        //   actions: [
+        //     'cognito-idp:AdminGetUser',
+        //     'cognito-idp:AdminListGroupsForUser'
+        //   ],
+        //   resources: [`${props.userPool.userPoolArn}`]
+        // }),
 
         // IoT
         new iam.PolicyStatement({
@@ -559,13 +559,13 @@ export class SmartProductApi extends cdk.Construct {
         }),
 
         // Cognito
-        new iam.PolicyStatement({
-          actions: [
-            'cognito-idp:AdminGetUser',
-            'cognito-idp:AdminListGroupsForUser'
-          ],
-          resources: [`${props.userPool.userPoolArn}`]
-        })
+        // new iam.PolicyStatement({
+        //   actions: [
+        //     'cognito-idp:AdminGetUser',
+        //     'cognito-idp:AdminListGroupsForUser'
+        //   ],
+        //   resources: [`${props.userPool.userPoolArn}`]
+        // })
       ]
     })
     const adminPolicyResource = adminPolicy.node.findChild('Resource') as iam.CfnPolicy;
@@ -620,13 +620,13 @@ export class SmartProductApi extends cdk.Construct {
         }),
 
         // Cognito
-        new iam.PolicyStatement({
-          actions: [
-            'cognito-idp:AdminGetUser',
-            'cognito-idp:AdminListGroupsForUser'
-          ],
-          resources: [`${props.userPool.userPoolArn}`]
-        })
+        // new iam.PolicyStatement({
+        //   actions: [
+        //     'cognito-idp:AdminGetUser',
+        //     'cognito-idp:AdminListGroupsForUser'
+        //   ],
+        //   resources: [`${props.userPool.userPoolArn}`]
+        // })
       ]
     })
     const eventPolicyResource = eventPolicy.node.findChild('Resource') as iam.CfnPolicy;
@@ -677,13 +677,13 @@ export class SmartProductApi extends cdk.Construct {
         }),
 
         // Cognito
-        new iam.PolicyStatement({
-          actions: [
-            'cognito-idp:AdminGetUser',
-            'cognito-idp:AdminListGroupsForUser'
-          ],
-          resources: [`${props.userPool.userPoolArn}`]
-        }),
+        // new iam.PolicyStatement({
+        //   actions: [
+        //     'cognito-idp:AdminGetUser',
+        //     'cognito-idp:AdminListGroupsForUser'
+        //   ],
+        //   resources: [`${props.userPool.userPoolArn}`]
+        // }),
 
         // IoT
         new iam.PolicyStatement({
@@ -730,13 +730,13 @@ export class SmartProductApi extends cdk.Construct {
         }),
 
         // Cognito
-        new iam.PolicyStatement({
-          actions: [
-            'cognito-idp:AdminGetUser',
-            'cognito-idp:AdminListGroupsForUser'
-          ],
-          resources: [`${props.userPool.userPoolArn}`]
-        }),
+        // new iam.PolicyStatement({
+        //   actions: [
+        //     'cognito-idp:AdminGetUser',
+        //     'cognito-idp:AdminListGroupsForUser'
+        //   ],
+        //   resources: [`${props.userPool.userPoolArn}`]
+        // }),
 
         // IoT
         new iam.PolicyStatement({
@@ -785,13 +785,13 @@ export class SmartProductApi extends cdk.Construct {
         }),
 
         // Cognito
-        new iam.PolicyStatement({
-          actions: [
-            'cognito-idp:AdminGetUser',
-            'cognito-idp:AdminListGroupsForUser'
-          ],
-          resources: [`${props.userPool.userPoolArn}`]
-        }),
+        // new iam.PolicyStatement({
+        //   actions: [
+        //     'cognito-idp:AdminGetUser',
+        //     'cognito-idp:AdminListGroupsForUser'
+        //   ],
+        //   resources: [`${props.userPool.userPoolArn}`]
+        // }),
 
         // IoT
         new iam.PolicyStatement({

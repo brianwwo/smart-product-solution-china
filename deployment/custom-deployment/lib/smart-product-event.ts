@@ -17,13 +17,13 @@ import iam = require('@aws-cdk/aws-iam');
 import lambda = require('@aws-cdk/aws-lambda');
 import sns = require('@aws-cdk/aws-sns');
 import dynamodb = require('@aws-cdk/aws-dynamodb');
-import cognito = require('@aws-cdk/aws-cognito')
+// import cognito = require('@aws-cdk/aws-cognito')
 import { generateName } from './name-generator';
 
 export interface SmartProductEventProps {
   eventsTable: dynamodb.Table;
   registrationTable: dynamodb.Table;
-  userPool: cognito.UserPool;
+  // userPool: cognito.UserPool;
   settingsTable: dynamodb.Table;
   solutionVersion: string;
   eventTopic: string;
@@ -59,7 +59,7 @@ export class SmartProductEvent extends cdk.Construct {
           SETTINGS_TBL: props.settingsTable.tableName,
           REGISTRATION_TBL: props.registrationTable.tableName,
           LOGGING_LEVEL: '2',
-          IDP: props.userPool.userPoolId,
+          // IDP: props.userPool.userPoolId,
           SNS_TOPIC: notificationSnsTopic.topicName
         }
       }
@@ -85,7 +85,7 @@ export class SmartProductEvent extends cdk.Construct {
           EVENTS_TBL: props.eventsTable.tableName,
           REGISTRATION_TBL: props.registrationTable.tableName,
           LOGGING_LEVEL: '2',
-          IDP: props.userPool.userPoolId,
+          // IDP: props.userPool.userPoolId,
           NOTIFICATION_LAMBDA: `${notificationService.functionName}`
         }
       }
@@ -151,15 +151,15 @@ export class SmartProductEvent extends cdk.Construct {
     notificationDynamoPolicy.attachToRole(notificationServiceRole);
 
     // Notification Cognito Policy
-    const notificationCognitoPolicy = new iam.Policy(this, 'NotificationCognitoPolicy', {
-      statements: [new iam.PolicyStatement({
-        actions: [
-          'cognito-idp:ListUsers'
-        ],
-        resources: [`${props.userPool.userPoolArn}`]
-      })]
-    })
-    notificationCognitoPolicy.attachToRole(notificationServiceRole);
+    // const notificationCognitoPolicy = new iam.Policy(this, 'NotificationCognitoPolicy', {
+    //   statements: [new iam.PolicyStatement({
+    //     actions: [
+    //       'cognito-idp:ListUsers'
+    //     ],
+    //     resources: [`${props.userPool.userPoolArn}`]
+    //   })]
+    // })
+    // notificationCognitoPolicy.attachToRole(notificationServiceRole);
 
     // Notification SNS Policy
     const notificationSnsPolicy = new iam.Policy(this, 'NotificationSnsPolicy', {
