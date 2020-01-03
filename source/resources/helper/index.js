@@ -115,13 +115,13 @@ exports.handler = async (event, context, callback) => {
           }
 
           // Checks IoT Analytics availability
-          try {
-            await _iotHelper.getIotAnalyticsChannels();
-          } catch (error) {
-            // Throws error if IoT Analytics may not be available in the region.
-            console.error(`IoT Analytics may not be available in ${process.env.AWS_REGION} region.`, error);
-            throw Error(`IoT Analytics may not be available in ${process.env.AWS_REGION} region.`);
-          }
+          // try {
+          //   await _iotHelper.getIotAnalyticsChannels();
+          // } catch (error) {
+          //   // Throws error if IoT Analytics may not be available in the region.
+          //   console.error(`IoT Analytics may not be available in ${process.env.AWS_REGION} region.`, error);
+          //   throw Error(`IoT Analytics may not be available in ${process.env.AWS_REGION} region.`);
+          // }
         }
 
         /**
