@@ -133,7 +133,7 @@ export class OwnerWebApp extends cdk.Construct {
           responsePagePath: '/index.html'
         }
       ],
-      // enableIpV6: true,
+      enableIpV6: false,
       httpVersion: cloudfront.HttpVersion.HTTP2,
       defaultRootObject: 'index.html',
       priceClass: cloudfront.PriceClass.PRICE_CLASS_ALL
