@@ -6,7 +6,7 @@
       "deploy": true
     },
     "defender": {
-      "deploy": true
+      "deploy": false
     },
     "events": {
       "deploy": true,
